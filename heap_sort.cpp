@@ -1,26 +1,71 @@
 #include <stdio.h>
-
-void HeapAdjust(int a[], int s, int length)
+int LeftChild(int i)
 {
-	int temp = a[s];
-	int left = 2*s + 1;
-	int right = 2*s + 2;
+	return (2*i + 1);
+}
 
-	if (a[left] < a[right]){ // right is bigger than left child
-		if (a[s] < a[right]) {
-			a[s] = a[right];
-			a[right] = temp;
-			s = right;
-		}else
-			return;
-	} else if{
-		if (a[s] < s[left]) {
-			a[s] = a[left];
-			a[left] = temp;
-			s = left;
-		}else 
-			return;
+void HeapAdjust(int a[], int i, int N)
+{
+	int child;
+	int temp;
+
+	for (temp = a[i]; LeftChild(i) < N; i = child)
+	{
+		child = LeftChild(i);
+
+		if (child < N - 1 && a[child] < a[child + 1]) {
+			child++;
+		}
+		if (temp < a[child]) {
+			a[i] = a[child];
+		} else {
+			break;
+		}
 	}
 
-	HeapAdjust(a, s, length);
+	a[i] = temp;
+}
+
+void swap(int *a, int *b)
+{
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+void HeapSort(int *a, int N)
+{
+	int parent_of_end = N/2;
+	int i ;
+	for (i = parent_of_end; i  >= 0; i--) {
+		HeapAdjust(a, i, N);
+	}
+/*
+	for (i = 0; i < N; i++) {
+		printf("%d ", a[i]);
+	}
+	printf("\n");
+*/
+
+	for (i = N -1; i > 0; i--) {
+		swap(&a[i], &a[0]);
+
+		HeapAdjust(a, 0, i);
+	}
+}
+
+int main()
+{
+	int a[10] = {5,3,1,2,7,6,8,0,9,4};
+
+	HeapSort(a, 10);
+
+	int i = 0;
+	for (;i < 10; i++) {
+		printf("%d ", a[i]);
+	}
+
+	printf("\n");
+
+	return 0;
 }
